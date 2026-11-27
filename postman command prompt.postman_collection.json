@@ -1,0 +1,268 @@
+{
+  "info": {
+    "_postman_id": "99a3d9f5-8cf0-424e-84b4-c5c561f722d1",
+    "name": "postman command prompt",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59273590",
+    "_collection_link": "https://go.postman.co/collection/59273590-99a3d9f5-8cf0-424e-84b4-c5c561f722d1?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "reg admin",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set(\"endpoint1\",\"/admin\");",
+              "pm.collectionVariables.set(\"baseurl\",\"https://www.shoppersstack.com/shopping\");",
+              "let num = Math.floor(Math.random()*100000);",
+              "let randomEmail = \"rohan\" + num + \"@gmail.com\";",
+              "let password = num + 10000;",
+              "let phone = num + 9000000000;",
+              "pm.environment.set(\"randomEmail\",randomEmail);",
+              "pm.environment.set(\"password\",password);",
+              "pm.collectionVariables.set(\"phoneno\", phone);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"city\": \"Kolkata\",\n  \"country\": \"India\",\n  \"createdDateTime\": \"2026-11-26T06:16:45.757Z\",\n  \"dob\": \"2026-11-26T06:16:45.757Z\",\n  \"email\": \"{{randomEmail}}\",\n  \"firstName\": \"Rohan\",\n  \"gender\": \"Male\",\n  \"imageId\": \"string\",\n  \"jwtToken\": \"string\",\n  \"lastName\": \"Kundu\",\n  \"password\": \"{{password}}\",\n  \"phone\": \"{{phoneno}}\",\n  \"role\": \"ADMIN\",\n  \"state\": \"West Bengal\",\n  \"status\": \"ACTIVE\",\n  \"token\": \"string\",\n  \"zoneId\": \"ALPHA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl}}{{endpoint1}}",
+          "host": [
+            "{{baseurl}}{{endpoint1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login admin",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set(\"endpoint2\",\"/users/login\")\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let jsonBody = pm.response.json();\r",
+              "let userId = jsonBody.data.userId;\r",
+              "pm.collectionVariables.set(\"userId\",userId)\r",
+              "let token = jsonBody.data.jwtToken\r",
+              "pm.collectionVariables.set(\"token\",token)"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{randomEmail}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"role\": \"ADMIN\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl}}{{endpoint2}}",
+          "host": [
+            "{{baseurl}}{{endpoint2}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "fetch",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set(\"endpoint3\",\"/admin/\")"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl}}{{endpoint3}}{{userId}}",
+          "host": [
+            "{{baseurl}}{{endpoint3}}{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set(\"endpoint4\",\"/admin/\")\r",
+              "pm.collectionVariables.set(\"baseurl\",\"https://www.shoppersstack.com/shopping\");\r",
+              "let num = Math.floor(Math.random()*100000);\r",
+              "let randomEmail2 = \"rohan\" + num + \"@gmail.com\";\r",
+              "let password2 = num + 10000;\r",
+              "let phone2 = num + 9000000000;\r",
+              "pm.environment.set(\"randomEmail2\",randomEmail2);\r",
+              "pm.environment.set(\"password2\",password2);\r",
+              "pm.collectionVariables.set(\"phone2\", phone2);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"city\": \"Bangalore\",\r\n  \"country\": \"India\",\r\n  \"createdDateTime\": \"2026-11-26T07:01:33.783Z\",\r\n  \"dob\": \"2026-11-26T07:01:33.783Z\",\r\n  \"email\": \"{{randomEmail2}}\",\r\n  \"firstName\": \"RON\",\r\n  \"gender\": \"Male\",\r\n  \"imageId\": \"string\",\r\n  \"jwtToken\": \"{{token}}\",\r\n  \"lastName\": \"Chatterjee\",\r\n  \"password\": \"{{password2}}\",\r\n  \"phone\": \"{{phone2}}\",\r\n  \"role\": \"ADMIN\",\r\n  \"state\": \"Karnataka\",\r\n  \"status\": \"ACTIVE\",\r\n  \"token\": \"string\",\r\n  \"zoneId\": \"ALPHA\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl}}{{endpoint4}}{{userId}}",
+          "host": [
+            "{{baseurl}}{{endpoint4}}{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "endpoint1",
+      "value": ""
+    },
+    {
+      "key": "https://www.shoppersstack.com/shopping",
+      "value": ""
+    },
+    {
+      "key": "baseurl",
+      "value": ""
+    },
+    {
+      "key": "phoneno",
+      "value": ""
+    },
+    {
+      "key": "endpoint2",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "endpoint3",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "endpoint4",
+      "value": ""
+    },
+    {
+      "key": "phone2",
+      "value": ""
+    }
+  ]
+}
